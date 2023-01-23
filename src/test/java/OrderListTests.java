@@ -1,17 +1,10 @@
 import Order.OrdersClient;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
-import org.junit.Before;
 import org.junit.Test;
 
 
-public class OrderListTests {
-
-    @Before
-    public void setUp() {
-        RestAssured.baseURI = "http://qa-scooter.praktikum-services.ru/";
-    }
+public class OrderListTests extends BaseTest {
 
     @Test
     @DisplayName("Check Orders List")

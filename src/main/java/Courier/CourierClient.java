@@ -6,14 +6,17 @@ import io.restassured.response.ValidatableResponse;
 
 import static io.restassured.RestAssured.given;
 
+
 public class CourierClient {
+    public final static String ROOT = "/api/v1/courier/";
+
     // можно сделать рефакторинг адресов запросов - ручек
     @Step("Создание курьера")
     public ValidatableResponse createCourier(Courier courier) {
         return given().log().all()
                 .contentType(ContentType.JSON)
                 .body(courier)
-                .when().post("/api/v1/courier")
+                .when().post(ROOT)
                 .then().log().all();
     }
 
@@ -23,7 +26,7 @@ public class CourierClient {
                 .contentType(ContentType.JSON)
                 .body(loginCourier)
                 .when()
-                .post("/api/v1/courier/login")
+                .post(ROOT +"login")
                 .then().log().all();
     }
 
@@ -32,7 +35,7 @@ public class CourierClient {
         return given()
                 .header("Content-type", "application/json")
                 .body(loginCourier)
-                .post("/api/v1/courier/login")
+                .post(ROOT +"login")
                 .body()
                 .as(Id.class);
     }
@@ -43,7 +46,7 @@ public class CourierClient {
                 .contentType(ContentType.JSON)
                 .body("{\"id\": " + courierId + "}")
                 .when()
-                .delete("/api/v1/courier/" + courierId)
+                .delete(ROOT + courierId)
                 .then().log().all();
 
 

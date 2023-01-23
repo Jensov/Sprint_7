@@ -1,20 +1,20 @@
 import Courier.*;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
 import io.restassured.response.ValidatableResponse;
-import org.junit.Before;
+import org.junit.After;
 import org.junit.Test;
 
-public class LoginCourierTests {
+public class LoginCourierTests extends BaseTest {
     private final CourierGenerator generator = new CourierGenerator();
     private final CourierClient client = new CourierClient();
 
     private final CourierAssertions check = new CourierAssertions();
+    private int id;
 
-    @Before
-    public void setUp() {
-        RestAssured.baseURI = "http://qa-scooter.praktikum-services.ru/";
+    @After
+    public void deleteCourier() {
+        CourierClient.deleteCourier(id);
     }
 
     @Test
@@ -29,9 +29,7 @@ public class LoginCourierTests {
         ValidatableResponse loginCourierResponse = client.loginCourier(courier);
         check.loggedInSuccessfully(loginCourierResponse);
 
-        Id courierId = CourierClient.getCourierId(courier);
-        ValidatableResponse deleteCourierResponse = CourierClient.deleteCourier(courierId.getId());
-        check.deleteSuccessfully(deleteCourierResponse);
+        id = CourierClient.getCourierId(courier).getId();
     }
 
     @Test
